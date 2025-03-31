@@ -6,12 +6,13 @@ export default function App() {
     author: '',
     title: '',
     body: '',
+    public: ''
   })
 
   function handleFormChange(e) {
 
     const type = e.target.type
-    const key = type === 'checkbox' ? e.target.checked : e.target.name
+    const key = type === 'checkbox' ? e.target.name : e.target.name
     const value = e.target.value
 
     setFormData({ ...formData, [key]: value })
