@@ -6,15 +6,34 @@ export default function App() {
     author: '',
     title: '',
     body: '',
-    public: ''
   })
 
   function handleFormChange(e) {
 
-    const key = e.target.name
+    const type = e.target.type
+    const key = type === 'checkbox' ? e.target.checked : e.target.name
     const value = e.target.value
 
     setFormData({ ...formData, [key]: value })
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault()
+
+    console.log(formData);
+
+    fetch('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts', {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+
   }
 
   return (
@@ -26,7 +45,7 @@ export default function App() {
 
           <div className="col-md-8">
 
-            <form method="POST">
+            <form method="POST" onSubmit={handleFormSubmit}>
 
               <div className="mb-3">
                 <label htmlFor="author" className="form-label">Author</label>
@@ -63,21 +82,29 @@ export default function App() {
                 <textarea className="form-control" name="body" value={formData.body} onChange={handleFormChange} id="body" rows="3"></textarea>
               </div>
 
-              <div className="form-check">
+              <div className="form-check mb-4">
                 <input className="form-check-input" type="checkbox" name="public" value={formData.public} onChange={handleFormChange} id="public" />
                 <label className="form-check-label" htmlFor=""> Make the post public </label>
               </div>
+
+              <button
+                type="submit"
+                className="btn btn-primary"
+              >
+                Send
+              </button>
+
 
             </form>
           </div>
 
           <div className="col-md-4">
 
-            <div class="card">
+            <div className="card">
               <div className="card-header">{formData.author}</div>
-              <div class="card-body">
-                <h4 class="card-title">{formData.title}</h4>
-                <p class="card-text">{formData.body}</p>
+              <div className="card-body">
+                <h4 className="card-title">{formData.title}</h4>
+                <p className="card-text">{formData.body}</p>
               </div>
 
             </div>
