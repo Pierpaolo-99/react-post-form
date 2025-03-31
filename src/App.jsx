@@ -25,6 +25,9 @@ export default function App() {
 
     fetch('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(formData)
     })
       .then(res => res.json())
